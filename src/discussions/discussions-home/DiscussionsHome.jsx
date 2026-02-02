@@ -8,8 +8,6 @@ import {
   matchPath, Route, Routes, useLocation, useMatch,
 } from 'react-router-dom';
 
-import { LearningHeader as Header } from '@edx/frontend-component-header';
-
 import { Spinner } from '../../components';
 import selectCourseTabs from '../../components/NavigationBar/data/selectors';
 import { ALL_ROUTES, DiscussionProvider, Routes as ROUTES } from '../../data/constants';
@@ -26,6 +24,7 @@ import messages from '../messages';
 import { selectPostEditorVisible } from '../posts/data/selectors';
 import { isCourseStatusValid } from '../utils';
 import useFeedbackWrapper from './FeedbackWrapper';
+import HeaderSlot from '../../plugin-slots/HeaderSlot';
 
 const FooterSlot = lazy(() => import('@edx/frontend-component-footer').then(module => ({ default: module.FooterSlot })));
 const PostActionsBar = lazy(() => import('../posts/post-actions-bar/PostActionsBar'));
@@ -81,7 +80,7 @@ const DiscussionsHome = () => {
   return (
     <Suspense fallback={(<Spinner />)}>
       <DiscussionContext.Provider value={discussionContextValue}>
-        {!enableInContextSidebar && (<Header courseOrg={org} courseNumber={courseNumber} courseTitle={courseTitle} />)}
+        {!enableInContextSidebar && (<HeaderSlot courseOrg={org} courseNumber={courseNumber} courseTitle={courseTitle} />)}
         <main className="container-fluid d-flex flex-column p-0 w-100 font-size" id="main" tabIndex="-1">
           {!enableInContextSidebar && <CourseTabsNavigation />}
           {(isEnrolled || !isUserLearner) && (
